@@ -1,0 +1,16 @@
+.error-msg-small {
+    font-size: 13px;
+}
+
+.hdr-txt {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.all-validations-list .form-group {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #4d45453c;
+}

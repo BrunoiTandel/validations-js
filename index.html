@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Custom Valudations Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/custom.css">
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition">
+<div class="wrapper">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light ml-0">
+    <div class="hdr-txt">Custom Validations using JS</div>
+  </nav>
+
+  <div class="content-wrapper ml-0 bg-white">
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <div class="row mt-5 all-validations-list">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-only-alphabets">Mandatory Name / Only Alphabets with Max Length Validation</label>
+                  <input type="text" class="form-control" id="mandatory-only-alphabets-with-max-length" placeholder="Enter Only Alphabets">
+                  <div id="mandatory-only-alphabets-with-max-length-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="non-mandatory-only-alphabets">Non Mandatory Name / Only Alphabets with Max Length Validation</label>
+                  <input type="text" class="form-control" id="non-mandatory-only-alphabets-with-max-length" placeholder="Enter Only Alphabets">
+                  <div id="non-mandatory-only-alphabets-with-max-length-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-email-id">Mandatory Email address</label>
+                  <input type="email" class="form-control" id="mandatory-email-id" placeholder="Enter email">
+                  <div id="mandatory-email-id-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="non-mandatory-email-id">Non Mandatory Email address</label>
+                  <input type="email" class="form-control" id="non-mandatory-email-id" placeholder="Enter email">
+                  <div id="non-mandatory-email-id-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-only-number">Mandatory Only Number with Max Length Validation <br>(Idle for Mobile Number and Pincode/Zipcode)</label>
+                  <input type="text" class="form-control" id="mandatory-only-number" placeholder="Enter Only Number">
+                  <div id="mandatory-only-number-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="non-mandatory-only-number">Non Mandatory Only Number with Max Length Validation <br>(Idle for Mobile Number and Pincode/Zipcode)</label>
+                  <input type="text" class="form-control" id="non-mandatory-only-number" placeholder="Enter Only Number">
+                  <div id="non-mandatory-only-number-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-any-input">Mandatory Any Input</label>
+                  <textarea class="form-control" placeholder="Message" id="mandatory-any-input"></textarea>
+                  <div id="mandatory-any-input-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-any-input-with-max-length-validation">Mandatory Any Input with Max Length Validation</label>
+                  <input type="text" class="form-control" id="mandatory-any-input-with-max-length-validation" placeholder="Enter Text Here">
+                  <div id="mandatory-any-input-with-max-length-validation-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="non-mandatory-any-input-with-max-length-validation">Non Mandatory Any Input with Max Length Validation</label>
+                  <input type="text" class="form-control" id="non-mandatory-any-input-with-max-length-validation" placeholder="Enter Text Here">
+                  <div id="non-mandatory-any-input-with-max-length-validation-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-any-input-with-min-length-validation">Mandatory Any Input with Min Length Validation</label>
+                  <input type="text" class="form-control" id="mandatory-any-input-with-min-length-validation" placeholder="Enter Text Here">
+                  <div id="mandatory-any-input-with-min-length-validation-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="non-mandatory-any-input-with-min-length-validation">Non Mandatory Any Input with Min Length Validation</label>
+                  <input type="text" class="form-control" id="non-mandatory-any-input-with-min-length-validation" placeholder="Enter Text Here">
+                  <div id="non-mandatory-any-input-with-min-length-validation-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-any-input-with-min-and-max-length-validation">Mandatory Any Input with Min and Max Length Validation</label>
+                  <input type="text" class="form-control" id="mandatory-any-input-with-min-and-max-length-validation" placeholder="Enter Text Here">
+                  <div id="mandatory-any-input-with-min-and-max-length-validation-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="non-mandatory-any-input-with-min-and-max-length-validation">Non Mandatory Any Input with Min and Max Length Validation</label>
+                  <input type="text" class="form-control" id="non-mandatory-any-input-with-min-and-max-length-validation" placeholder="Enter Text Here">
+                  <div id="non-mandatory-any-input-with-min-and-max-length-validation-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-url">Mandatory URL</label>
+                  <input type="text" class="form-control" id="mandatory-url" placeholder="Enter URL">
+                  <div id="mandatory-url-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="non-mandatory-url">Non Mandatory URL</label>
+                  <input type="text" class="form-control" id="non-mandatory-url" placeholder="Enter URL">
+                  <div id="non-mandatory-url-error-msg-div"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="main-footer ml-0">
+    <strong>Copyright &copy; 2024
+    <div class="float-right d-sm-inline-block">
+      <b>Version</b> 1.0.2
+    </div>
+  </footer>
+
+</div>
+
+<script src="plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="dist/js/adminlte.js"></script>
+<script src="dist/js/pages/dashboard.js"></script>
+<script src="dist/js/demo.js"></script>
+<script src="dist/js/call-to-custom-validations.js"></script>
+<script src="dist/js/custom-validations.js"></script>
+</body>
+</html>
