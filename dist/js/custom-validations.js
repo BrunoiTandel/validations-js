@@ -646,29 +646,76 @@ function not_mandatory_multiple_image_upload(variable_array) {
 	}
 }
 
-function remove_selected_gse_image(id,file_ui_id,file_id) {
-	var file = $('#'+file_ui_id+id).data("file");
-	for(var i = 0;i < gse_header_images_array.length; i++) {
-		if(gse_header_images_array[i].name === file) {
-			gse_header_images_array.splice(i,1); 
-		}
+function mandatory_multiple_image_upload(variable_array) {
+	var files = variable_array.e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+
+    if (files.length > 0) {
+    	var not_an_image_count = 0,
+    		exceeding_max_image_size_count = 0;
+    	for (var i = 0; i < files.length; i++) {
+    		if ($.inArray(files[i].name.split('.').pop().toLowerCase(), image_extension_list) == -1) {
+		        not_an_image_count++;
+		    }
+
+		    if (files[i].size > max_img_size) {
+		    	exceeding_max_image_size_count++;
+		    }
+        }
+
+    	if (not_an_image_count != 0) {
+	        $(variable_array.show_image_id).html("<div class='"+variable_array.col_type+"'><span class='text-danger error-msg-small'>Allowed formats are: "+image_extension_list.join(', ')+"</span></div>");
+	        $(variable_array.file_id).val('');
+	    	return 0;
+	    } else {
+	    	if (exceeding_max_image_size_count == 0) {
+	    		$(variable_array.show_image_id).html('');
+
+	    		var sorting_id = 'no-sort',
+	    			sorting_class = '';
+	    		if (variable_array.sorting_id != '' && variable_array.sorting_id != undefined) {
+	    			sorting_id = variable_array.sorting_id;
+	    		}
+
+	    		if (variable_array.sorting_class != '' && variable_array.sorting_class != undefined) {{
+	    			sorting_class = variable_array.sorting_class;
+	    		}}
+		    	for (var i = 0; i < files.length; i++) {
+		    		variable_array.storedFiles_array.push(files[i]);
+		    		var fileName = files[i].name; // get file name
+		            var html = '<div class="'+variable_array.col_type+' mt-3" id="'+variable_array.file_ui_id+'-'+i+'">'+
+		                '<div class="image-selected-div">'+
+		                	'<ul class="'+sorting_class+'" id="'+sorting_id+'_'+i+'" data-sorting_id="'+i+'">'+
+		                      	'<li class="image-selected-name">'+fileName+'</li>'+
+		                      	'<li class="image-name-delete">'+
+		                        	'<a id="'+variable_array.file_ui_id+i+'" onclick="'+variable_array.remove_image_function_name+'('+i+',\''+variable_array.file_ui_id+'\',\''+variable_array.file_id+'\')" data-file="'+fileName+'" class="image-name-delete-a"><i class="fa fa-times text-danger"></i></a>'+
+		                      	'</li>'+
+		                    '</ul>'+
+		                  '</div>'+
+		                '</div>';
+		            $(variable_array.show_image_id).append(html);
+	        	}
+		        return 1;
+	    	} else {
+	    		$(variable_array.show_image_id).html("<span class='text-danger error-msg-small'>"+variable_array.max_size_exceeding_error_msg+"</span>");
+	    		$(variable_array.file_id).val('');
+	    		return 0;
+	    	}
+	    }
+	} else {
+		$(variable_array.show_image_id).html("<span class='text-danger error-msg-small'>"+variable_array.empty_input_error_msg+"</span>");
+		return 0;
 	}
-	if (gse_header_images_array.length == 0) {
-		$(file_id).val('');
-	}
-	
-	$('#'+file_ui_id+'-'+id).remove();
-	return 1;
 }
 
-function remove_selected_mhe_image(id,file_ui_id,file_id) {
+function remove_selected_mandatory_single_file_upload(id,file_ui_id,file_id) {
 	var file = $('#'+file_ui_id+id).data("file");
-	for(var i = 0;i < mhe_header_images_array.length; i++) {
-		if(mhe_header_images_array[i].name === file) {
-			mhe_header_images_array.splice(i,1); 
+	for(var i = 0;i < mandatory_single_file_upload_array.length; i++) {
+		if(mandatory_single_file_upload_array[i].name === file) {
+			mandatory_single_file_upload_array.splice(i,1); 
 		}
 	}
-	if (mhe_header_images_array.length == 0) {
+	if (mandatory_single_file_upload_array.length == 0) {
 		$(file_id).val('');
 	}
 	

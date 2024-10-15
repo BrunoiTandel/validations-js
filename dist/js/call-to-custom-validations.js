@@ -1,7 +1,9 @@
 var only_alphabets_max_length = 15,
     only_number_max_length = 10,
     input_with_max_length = 20,
-    input_with_min_length = 5;
+    input_with_min_length = 5,
+    max_img_size = 10000000,
+    mandatory_single_file_upload_array = [];
 
 // The #mandatory-only-alphabets-with-max-length id is for the input field where the user enters only alphabets for first / last name or any other input that requires only alphabets.
 $('#mandatory-only-alphabets-with-max-length').on('keyup blur', function() {
@@ -76,6 +78,17 @@ $('#mandatory-url').on('keyup blur', function() {
 // The #non-mandatory-url id is for the input field where the user enters non mandatory URL.
 $('#non-mandatory-url').on('keyup blur', function() {
 	check_non_mandatory_url();
+});
+
+// The #mandatory-select-option id is for the input field where the user selects mandatory select option.
+$('#mandatory-select-option').on('change', function() {
+	check_mandatory_select_option();
+});
+
+$("#mandatory-single-file-upload").on("change", handle_file_select_mandatory_single_file_upload);
+
+$('#btn-submit-check-all-validations').on('click', function() {
+    check_submit_btn();
 });
 
 // The callback function from where the validation function will be called to validate the input entered by the user. The input field is mandatory
@@ -233,4 +246,52 @@ function check_non_mandatory_url() {
 	variable_array['input_id'] = '#non-mandatory-url';
     variable_array['error_msg_div_id'] = '#non-mandatory-url-error-msg-div';
 	return non_mandatory_url(variable_array);
+}
+
+// The callback function from where the validation function will be called to validate the option selected by the user. The select option in mandatory
+function check_mandatory_select_option() {
+	var variable_array = {};
+	variable_array['input_id'] = '#mandatory-select-option';
+	variable_array['error_msg_div_id'] = '#mandatory-select-option-error-msg-div';
+	variable_array['empty_input_error_msg'] = 'Please select an option.';
+	return mandatory_select(variable_array);
+}
+
+function handle_file_select_mandatory_single_file_upload(e) {
+	mandatory_single_file_upload_array = [];
+	var variable_array = {};
+    $('#selected-mandatory-single-file-upload-images-image-div').html("");
+	variable_array['e'] = e;
+	variable_array['file_id'] = '#mandatory-single-file-upload';
+	variable_array['storedFiles_array'] = mandatory_single_file_upload_array;
+	variable_array['col_type'] = 'col-md-12';
+	variable_array['file_ui_id'] = 'mandatory-single-file-upload';
+	variable_array['max_img_size'] = max_img_size;
+	variable_array['empty_input_error_msg'] = '';
+	variable_array['show_image_id'] = '#mandatory-single-file-upload-images-image-div';
+	variable_array['max_size_exceeding_error_msg'] = 'Image should be of max 1 Mb.';
+	variable_array['remove_image_function_name'] = 'remove_selected_mandatory_single_file_upload';
+	return mandatory_multiple_image_upload(variable_array);
+}
+
+function check_submit_btn() {
+    check_mandatory_only_alphabets_with_max_length();
+    check_non_mandatory_only_alphabets_with_max_length();
+    check_mandatory_email_id();
+    check_non_mandatory_email_id();
+    check_mandatory_only_number();
+    check_non_mandatory_only_number();
+    check_mandatory_any_input();
+    check_mandatory_any_input_with_max_length_validation();
+    check_non_mandatory_any_input_with_max_length_validation();
+    check_mandatory_any_input_with_min_length_validation();
+    check_non_mandatory_any_input_with_min_length_validation();
+    check_mandatory_any_input_with_min_and_max_length_validation();
+    check_non_mandatory_any_input_with_min_and_max_length_validation();
+    check_mandatory_url();
+    check_non_mandatory_url();
+    check_mandatory_select_option();
+    if(mandatory_single_file_upload_array == '' || mandatory_single_file_upload_array == undefined || mandatory_single_file_upload_array == 'undefined' || mandatory_single_file_upload_array.length == 0) {
+        $('#selected-mandatory-single-file-upload-images-image-div').html("<div class='col-md-12'><span class='text-danger error-msg-small'>No Image Selected. Please select an Image</span></div>");
+    }
 }

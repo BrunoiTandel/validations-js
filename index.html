@@ -132,6 +132,34 @@
                   <div id="non-mandatory-url-error-msg-div"></div>
                 </div>
               </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="mandatory-select-option">Mandatory Select option</label>
+                  <select class="form-control" id="mandatory-select-option">
+                    <option value="">Select Option</option>
+                    <option value="1">option 1</option>
+                    <option value="2">option 2</option>
+                    <option value="3">option 3</option>
+                    <option value="4">option 4</option>
+                    <option value="5">option 5</option>
+                  </select>
+                  <div id="mandatory-select-option-error-msg-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="customFile">Mandatory File Upload</label>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="mandatory-single-file-upload">
+                    <label class="custom-file-label" for="mandatory-single-file-upload">Choose file</label>
+                  </div>
+                  <div class="row" id="selected-mandatory-single-file-upload-images-image-div"></div>
+                  <div class="row" id="mandatory-single-file-upload-images-image-div"></div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <button type="button" class="btn btn-block btn-primary" id="btn-submit-check-all-validations">Submit</button>
+              </div>
             </div>
           </div>
           <div class="col-md-4"></div>
@@ -140,7 +168,7 @@
     </section>
   </div>
   <footer class="main-footer ml-0">
-    <strong>Copyright &copy; 2024
+    <strong>Copyright &copy; <span id="copyrightDate"></span>
     <div class="float-right d-sm-inline-block">
       <b>Version</b> 1.0.2
     </div>
@@ -158,5 +186,14 @@
 <script src="dist/js/demo.js"></script>
 <script src="dist/js/call-to-custom-validations.js"></script>
 <script src="dist/js/custom-validations.js"></script>
+
+<script>
+  var formattedDate = '';
+  $(document).ready(function() {
+    var currentDate = new Date();
+    var year = currentDate.getFullYear();
+    $('#copyrightDate').text(year);
+  });
+</script>
 </body>
 </html>
