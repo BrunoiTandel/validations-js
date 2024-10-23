@@ -3,7 +3,11 @@ var only_alphabets_max_length = 15,
     input_with_max_length = 20,
     input_with_min_length = 5,
     max_img_size = 10000000,
-    mandatory_single_file_upload_array = [];
+    mandatory_single_image_upload_array = [],
+    mandatory_single_file_upload_array = [],
+    non_mandatory_single_image_upload_array = [],
+    mandatory_multiple_file_upload_array = [],
+    mandatory_multiple_image_upload_array = [];
 
 // The #mandatory-only-alphabets-with-max-length id is for the input field where the user enters only alphabets for first / last name or any other input that requires only alphabets.
 $('#mandatory-only-alphabets-with-max-length').on('keyup blur', function() {
@@ -85,7 +89,20 @@ $('#mandatory-select-option').on('change', function() {
 	check_mandatory_select_option();
 });
 
+// The #mandatory-single-file-upload id is for the input field where the user selects mandatory single File Upload Button.
 $("#mandatory-single-file-upload").on("change", handle_file_select_mandatory_single_file_upload);
+
+// The #mandatory-single-image-upload id is for the input field where the user selects mandatory single image Upload Button.
+$("#mandatory-single-image-upload").on("change", handle_file_select_mandatory_single_image_upload);
+
+// The #non-mandatory-single-image-upload id is for the input field where the user selects non mandatory single image Upload Button.
+$("#non-mandatory-single-image-upload").on("change", handle_file_select_non_mandatory_single_image_upload);
+
+// The #mandatory-multiple-file-upload id is for the input field where the user selects mandatory multiple File Upload Button.
+$("#mandatory-multiple-file-upload").on("change", handle_file_select_mandatory_multiple_file_upload);
+
+// The #mandatory-multiple-image-upload id is for the input field where the user selects mandatory multiple image Upload Button.
+$("#mandatory-multiple-image-upload").on("change", handle_file_select_mandatory_multiple_image_upload);
 
 $('#btn-submit-check-all-validations').on('click', function() {
     check_submit_btn();
@@ -248,7 +265,7 @@ function check_non_mandatory_url() {
 	return non_mandatory_url(variable_array);
 }
 
-// The callback function from where the validation function will be called to validate the option selected by the user. The select option in mandatory
+// The callback function from where the validation function will be called to validate the option selected by the user. The select option is mandatory
 function check_mandatory_select_option() {
 	var variable_array = {};
 	variable_array['input_id'] = '#mandatory-select-option';
@@ -257,20 +274,93 @@ function check_mandatory_select_option() {
 	return mandatory_select(variable_array);
 }
 
+// The callback function from where the validation function will be called to validate the multiple files selected by the user. The choose file is mandatory
 function handle_file_select_mandatory_single_file_upload(e) {
 	mandatory_single_file_upload_array = [];
 	var variable_array = {};
-    $('#selected-mandatory-single-file-upload-images-image-div').html("");
+    $('#selected-mandatory-multiple-file-upload-images-image-div').html("");
 	variable_array['e'] = e;
-	variable_array['file_id'] = '#mandatory-single-file-upload';
-	variable_array['storedFiles_array'] = mandatory_single_file_upload_array;
+	variable_array['file_id'] = '#mandatory-multiple-file-upload';
+	variable_array['storedFiles_array'] = mandatory_multiple_file_upload_array;
 	variable_array['col_type'] = 'col-md-12';
-	variable_array['file_ui_id'] = 'mandatory-single-file-upload';
+	variable_array['file_ui_id'] = 'mandatory-multiple-file-upload';
 	variable_array['max_img_size'] = max_img_size;
 	variable_array['empty_input_error_msg'] = '';
-	variable_array['show_image_id'] = '#mandatory-single-file-upload-images-image-div';
+	variable_array['show_image_id'] = '#mandatory-multiple-file-upload-images-image-div';
+	variable_array['max_size_exceeding_error_msg'] = 'File should be of max 1 Mb.';
+	variable_array['remove_image_function_name'] = 'remove_selected_mandatory_multiple_file_upload';
+	return mandatory_multiple_file_upload(variable_array);
+}
+
+// The callback function from where the validation function will be called to validate the image file selected by the user. The choose file is mandatory
+function handle_file_select_mandatory_single_image_upload(e) {
+	mandatory_single_image_upload_array = [];
+	var variable_array = {};
+    $('#selected-mandatory-single-image-upload-images-image-div').html("");
+	variable_array['e'] = e;
+	variable_array['file_id'] = '#mandatory-single-image-upload';
+	variable_array['storedFiles_array'] = mandatory_single_image_upload_array;
+	variable_array['col_type'] = 'col-md-12';
+	variable_array['file_ui_id'] = 'mandatory-single-image-upload';
+	variable_array['max_img_size'] = max_img_size;
+	variable_array['empty_input_error_msg'] = '';
+	variable_array['show_image_id'] = '#mandatory-single-image-upload-images-image-div';
 	variable_array['max_size_exceeding_error_msg'] = 'Image should be of max 1 Mb.';
-	variable_array['remove_image_function_name'] = 'remove_selected_mandatory_single_file_upload';
+	variable_array['remove_image_function_name'] = 'remove_selected_mandatory_single_image_upload';
+	return mandatory_multiple_image_upload(variable_array);
+}
+
+// The callback function from where the validation function will be called to validate the image file selected by the user. The choose file is non mandatory
+function handle_file_select_non_mandatory_single_image_upload(e) {
+	non_mandatory_single_image_upload_array = [];
+	var variable_array = {};
+    $('#selected-non-mandatory-single-image-upload-images-image-div').html("");
+	variable_array['e'] = e;
+	variable_array['file_id'] = '#non-mandatory-single-image-upload';
+	variable_array['storedFiles_array'] = non_mandatory_single_image_upload_array;
+	variable_array['col_type'] = 'col-md-12';
+	variable_array['file_ui_id'] = 'non-mandatory-single-image-upload';
+	variable_array['max_img_size'] = max_img_size;
+	variable_array['empty_input_error_msg'] = '';
+	variable_array['show_image_id'] = '#non-mandatory-single-image-upload-images-image-div';
+	variable_array['max_size_exceeding_error_msg'] = 'Image should be of max 1 Mb.';
+	variable_array['remove_image_function_name'] = 'remove_selected_non_mandatory_single_image_upload';
+	return non_mandatory_multiple_image_upload(variable_array);
+}
+
+// The callback function from where the validation function will be called to validate the file selected by the user. The choose file is mandatory
+function handle_file_select_mandatory_multiple_file_upload(e) {
+	mandatory_multiple_file_upload_array = [];
+	var variable_array = {};
+    $('#selected-mandatory-multiple-file-upload-images-image-div').html("");
+	variable_array['e'] = e;
+	variable_array['file_id'] = '#mandatory-multiple-file-upload';
+	variable_array['storedFiles_array'] = mandatory_multiple_file_upload_array;
+	variable_array['col_type'] = 'col-md-12';
+	variable_array['file_ui_id'] = 'mandatory-multiple-file-upload';
+	variable_array['max_img_size'] = max_img_size;
+	variable_array['empty_input_error_msg'] = '';
+	variable_array['show_image_id'] = '#mandatory-multiple-file-upload-images-image-div';
+	variable_array['max_size_exceeding_error_msg'] = 'File should be of max 1 Mb.';
+	variable_array['remove_image_function_name'] = 'remove_selected_mandatory_multiple_file_upload';
+	return mandatory_multiple_image_upload(variable_array);
+}
+
+// The callback function from where the validation function will be called to validate the multiple image file selected by the user. The choose file is mandatory
+function handle_file_select_mandatory_multiple_image_upload(e) {
+	mandatory_multiple_image_upload_array = [];
+	var variable_array = {};
+    $('#selected-mandatory-multiple-image-upload-images-image-div').html("");
+	variable_array['e'] = e;
+	variable_array['file_id'] = '#mandatory-multiple-image-upload';
+	variable_array['storedFiles_array'] = mandatory_multiple_image_upload_array;
+	variable_array['col_type'] = 'col-md-12';
+	variable_array['file_ui_id'] = 'mandatory-multiple-image-upload';
+	variable_array['max_img_size'] = max_img_size;
+	variable_array['empty_input_error_msg'] = '';
+	variable_array['show_image_id'] = '#mandatory-multiple-image-upload-images-image-div';
+	variable_array['max_size_exceeding_error_msg'] = 'Image should be of max 1 Mb.';
+	variable_array['remove_image_function_name'] = 'remove_selected_mandatory_multiple_image_upload';
 	return mandatory_multiple_image_upload(variable_array);
 }
 
@@ -291,7 +381,22 @@ function check_submit_btn() {
     check_mandatory_url();
     check_non_mandatory_url();
     check_mandatory_select_option();
+    
     if(mandatory_single_file_upload_array == '' || mandatory_single_file_upload_array == undefined || mandatory_single_file_upload_array == 'undefined' || mandatory_single_file_upload_array.length == 0) {
-        $('#selected-mandatory-single-file-upload-images-image-div').html("<div class='col-md-12'><span class='text-danger error-msg-small'>No Image Selected. Please select an Image</span></div>");
+        $('#selected-mandatory-single-file-upload-images-image-div').html("<div class='col-md-12'><span class='text-danger error-msg-small'>No file selected. Please select a file</span></div>");
+    }
+
+    if(mandatory_single_image_upload_array == '' || mandatory_single_image_upload_array == undefined || mandatory_single_image_upload_array == 'undefined' || mandatory_single_image_upload_array.length == 0) {
+        $('#selected-mandatory-single-image-upload-images-image-div').html("<div class='col-md-12'><span class='text-danger error-msg-small'>No image selected. Please select an image</span></div>");
+    }
+
+    if(mandatory_multiple_file_upload_array == '' || mandatory_multiple_file_upload_array == undefined || mandatory_multiple_file_upload_array == 'undefined' || mandatory_multiple_file_upload_array.length == 0) {
+        $('#mandatory-multiple-file-upload-images-image-div').html("<div class='col-md-12'><span class='text-danger error-msg-small'>No file selected. Please select at least 1 file.</span></div>")
+    }
+
+    // mandatory-multiple-file-upload-images-image-div
+
+    if(mandatory_multiple_image_upload_array == '' || mandatory_multiple_image_upload_array == undefined || mandatory_multiple_image_upload_array == 'undefined' || mandatory_multiple_image_upload_array.length == 0) {
+        $('#mandatory-multiple-image-upload-images-image-div').html("<div class='col-md-12'><span class='text-danger error-msg-small'>No image selected. Please select at least 1 image</span></div>");
     }
 }
