@@ -382,7 +382,7 @@ function multiple_file_upload_single_image_or_video_with_input(variable_array) {
 			for (var i = 0; i < files.length; i++) {
     			variable_array.storedFiles_array.push(files[i]);
 		    	var fileName = files[i].name; // get file name
-		        var html = '<div class="col-md-4" id="'+variable_array.file_ui_id+'-'+i+'">';
+		        var html = '<div class="col-md-12" id="'+variable_array.file_ui_id+'-'+i+'">';
 	            html += '<div class="row">';
 	            html += '<div class="'+variable_array.col_type+' mt-3">';
 	           	html += '<div class="image-selected-div">';
@@ -533,50 +533,6 @@ function single_file_upload_for_only_image(variable_array) {
 }
 
 function remove_single_file_for_only_image(id,file_ui_id,file_id,show_image_name_msg_div_id,empty_input_error_msg) {
-	var file = $(file_ui_id+id).data("file");
-	$(file_ui_id+'_'+id).remove();
-	$(show_image_name_msg_div_id).html('<div class="col-md-12"><span class="text-danger error-msg-small">'+empty_input_error_msg+'</span></div>');
-	$(file_id).val('');
-	return 1;
-}
-
-function single_file_upload_for_only_video(variable_array) {
-	var files = variable_array.e.target.files;
-    var filesArr = Array.prototype.slice.call(files);
-
-    if ($.inArray(files[0].name.split('.').pop().toLowerCase(), video_extensions_list) != -1) {
-    	$(variable_array.show_image_name_msg_div_id).html('');
-        if (files.length == 1 && files[0].size <= variable_array.file_size) {
-            var fileName = files[0].name; // get file name
-            var html = '<div class="'+variable_array.col_type+'" id="'+variable_array.file_ui_id+'_1">'+
-                '<div class="image-selected-div">'+
-                    '<ul>'+
-                        '<li class="image-selected-name">'+fileName+'</li>'+
-                            '<li class="image-name-delete">'+
-                                '<a id="'+variable_array.file_ui_id+'" onclick="remove_single_file_for_only_video(1,\'#'+variable_array.file_ui_id+'\',\''+variable_array.file_id+'\',\''+variable_array.show_image_name_msg_div_id+'\',\''+variable_array.empty_input_error_msg+'\')" data-file="'+fileName+'" class="image-name-delete-a"><i class="fa fa-times text-danger"></i></a>'+
-                            '</li>'+
-                        '</ul>'+
-                    '</div>'+
-                '</div>';
-                $(variable_array.show_image_name_msg_div_id).append(html);
-                variable_array.storedFiles_array.push(files[0]);
-                return 1;
-        } else {
-            if(files[0].size > variable_array.file_size) {
-                $(variable_array.show_image_name_msg_div_id).html("<div class='"+variable_array.col_type+"'><span class='text-danger error-msg-small'>"+variable_array.exceeding_max_length_error_msg+"</span></div>");
-            } else {
-                $(variable_array.show_image_name_msg_div_id).html("");
-            }
-            $(variable_array.file_id).val('');
-            return 0;
-        }
-    } else {
-        $(variable_array.show_image_name_msg_div_id).html("<div class='"+variable_array.col_type+"'><span class='text-danger error-msg-small'>Allowed formats are: "+video_extensions_list.join(', ')+"</span></div>");
-        $(variable_array.file_id).val('');
-    }
-}
-
-function remove_single_file_for_only_video(id,file_ui_id,file_id,show_image_name_msg_div_id,empty_input_error_msg) {
 	var file = $(file_ui_id+id).data("file");
 	$(file_ui_id+'_'+id).remove();
 	$(show_image_name_msg_div_id).html('<div class="col-md-12"><span class="text-danger error-msg-small">'+empty_input_error_msg+'</span></div>');
@@ -898,6 +854,18 @@ function remove_selected_mandatory_multiple_image_upload(id,file_ui_id,file_id) 
 	return 1;
 }
 
+function remove_selected_non_mandatory_multiple_image_upload(id,file_ui_id,file_id) {
+	var file = $('#'+file_ui_id+id).data("file");
+	for(var i = 0;i < non_mandatory_multiple_image_upload_array.length; i++) {
+		if(non_mandatory_multiple_image_upload_array[i].name === file) {
+			non_mandatory_multiple_image_upload_array.splice(i,1);
+		}
+	}
+	
+	$('#'+file_ui_id+'-'+id).remove();
+	return 1;
+}
+
 function mandatory_multiple_image_upload_with_input(variable_array) {
 	var files = variable_array.e.target.files;
     var filesArr = Array.prototype.slice.call(files);
@@ -959,15 +927,16 @@ function mandatory_multiple_image_upload_with_input(variable_array) {
 	}
 }
 
-function remove_selected_product_gallery_image(id,file_ui_id,file_id) {
+function remove_selected_mandatory_multiple_image_upload_images_image_with_input_for_images(id,file_ui_id,file_id) {
 	var file = $('#'+file_ui_id+id).data("file");
-	for(var i = 0;i < product_gallery_images_array.length; i++) {
-		if(product_gallery_images_array[i].name === file) {
-			product_gallery_images_array.splice(i,1); 
+	for(var i = 0;i < mandatory_multiple_image_upload_with_input_for_images_array.length; i++) {
+		if(mandatory_multiple_image_upload_with_input_for_images_array[i].name === file) {
+			mandatory_multiple_image_upload_with_input_for_images_array.splice(i,1); 
 		}
 	}
-	if (product_gallery_images_array.length == 0) {
+	if (mandatory_multiple_image_upload_with_input_for_images_array.length == 0) {
 		$(file_id).val('');
+		$('#selected-mandatory-multiple-image-upload-images-image-with-input-for-images-div').html("<div class='col-md-12'><span class='text-danger error-msg-small'>No image / video selected. Please select at least 1 image / video.</span></div>");
 	}
 	
 	$('#'+file_ui_id+'-'+id).remove();
@@ -1277,7 +1246,6 @@ function non_mandatory_any_input_with_min_and_max_length_validation(variable_arr
 }
 
 function mandatory_url(variable_array) {
-	console.log('1');
 	var input_value = $(variable_array.input_id).val();
     if (input_value != '') {
         if (!url_regex.test(input_value)) {
@@ -1355,7 +1323,7 @@ function confirm_both_passwords(variable_array) {
 			$(variable_array.confirm_password_error_msg_div).html('<span class="text-success error-msg-small">Passwords are same.</span>');
 			return 1;
 		} else {
-			$(variable_array.confirm_password_error_msg_div).html('<span class="text-danger error-msg-small">New passwords are not same.</span>');
+			$(variable_array.confirm_password_error_msg_div).html('<span class="text-danger error-msg-small">Passwords are not same.</span>');
 			return 0;
 		}
 	} else {
@@ -1380,58 +1348,6 @@ function confirm_both_passwords(variable_array) {
 		}
 
 		return 0;
-	}
-}
-
-function view_password_toggle(variable_array) {
-	var password_type_val = $(variable_array.password_type).val();
-    if (password_type_val == "1") {
-     	$(pvariable_array.assword_type).val('0');
-      	$(variable_array.input_id).prop('type', 'text');
-      	$(variable_array.input_id_i).removeClass('fa-eye-slash');
-      	$(variable_array.input_id_i).addClass('fa-eye');
-    } else {
-      	$(variable_array.password_type).val('1');
-      	$(variable_array.input_id).prop('type', 'password');
-      	$(variable_array.input_id_i).removeClass('fa-eye');
-      	$(variable_array.input_id_i).addClass('fa-eye-slash');
-    }
-}
-
-function mandatory_input_with_max_length_check_name_duplication(variable_array) {
-	var input_value = $(variable_array.input_id).val();
-	if (input_value != '' && input_value.length > 0) {
-		if (input_value.length > variable_array.name_max_length) {
-			$(variable_array.error_msg_div_id).html('<span class="text-danger error-msg-small">'+variable_array.error_msg_div_id+'</span>');
-		} else {
-			var check_duplication_count = '';
-			$.ajax({
-				type: "POST",
-			  	url: base_url+variable_array.ajax_call_url,
-			  	data: variable_array.ajax_pass_data,
-			  	dataType: 'json',
-			    async: false,
-			  	success: function(data) {
-			  		if (data.status == 1) {
-				  		check_duplication_count = data.check_duplication.count;					  	
-				  	} else {
-				  		check_admin_login();
-				  	}
-			  	},
-			  	error: function(data) {
-			  		toastr.error('Something went wrong. Please try again.');
-			  	}
-			});
-			if (check_duplication_count == 0) {
-				$(variable_array.error_msg_div_id).html('');
-				return 1;
-			} else {
-				$(variable_array.error_msg_div_id).html('<span class="text-danger error-msg-small">'+variable_array.duplication_error_msg+'</span>');
-				return 0;
-			}
-		}
-	} else {
-		$(variable_array.error_msg_div_id).html('<span class="text-danger error-msg-small">'+variable_array.empty_input_error_msg+'</span>');
 	}
 }
 
